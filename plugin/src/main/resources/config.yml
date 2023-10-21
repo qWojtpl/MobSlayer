@@ -24,11 +24,17 @@ mobs:
       - "0 120 0 world"
       - "5 120 5 world"
     spawnMessage: "&a&lSuper warden just spawned at {0}!"
+    killMessage: "&a&lSuper warden has just been killed by {0} ({1}% of damage)!"
     rewards:
-      0: []
-
-messages:
-  finalDamagePercent: "&aYou have dealt &6{0}&a% damage to {1}. You're top {2} on this event."
-  rewards: "&aRewards: "
-  rewardRecord: " &e- {0}"
-  noRewards: "&cYou don't have any rewards for participating in this event."
+      "top_0":
+        0:
+          material: diamond
+          amount: 3
+      "top_1":
+        0:
+          material: diamond
+          amount: 1
+      "top_2":
+        0:
+          material: emerald
+          amount: 2

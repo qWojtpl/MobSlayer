@@ -15,6 +15,14 @@ import java.util.List;
 public class DataHandler {
 
     private final MobSlayer plugin = MobSlayer.getInstance();
+    private final MessagesManager messagesManager = plugin.getMessagesManager();
+
+    public void loadAll() {
+        plugin.getMobsManager().clearSchemas();
+        plugin.getMobsManager().killAll();
+        loadConfig();
+        loadMessages();
+    }
 
     public void loadConfig() {
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(getConfigFile());
@@ -49,9 +57,21 @@ public class DataHandler {
                 continue;
             }
             schema.setSpawnMessage(yml.getString(path + "spawnMessage", "").replace("&", "§"));
+            schema.setKillMessage(yml.getString(path + "killMessage", "").replace("&", "§"));
             plugin.getMobsManager().addSchema(schema);
         }
         plugin.getLogger().info("Loaded (" + plugin.getMobsManager().getSchemas().size() + ") mobs.");
+    }
+
+    public void loadMessages() {
+        YamlConfiguration yml = YamlConfiguration.loadConfiguration(getMessagesFile());
+        ConfigurationSection section = yml.getConfigurationSection("messages");
+        if(section == null) {
+            return;
+        }
+        for(String key : section.getKeys(false)) {
+            messagesManager.addMessage(key, yml.getString("messages." + key));
+        }
     }
 
     public void setConfigValue(String key, Object value) {
@@ -67,6 +87,10 @@ public class DataHandler {
 
     public File getConfigFile() {
         return getFile("config.yml");
+    }
+
+    public File getMessagesFile() {
+        return getFile("messages.yml");
     }
 
     public File getFile(String fileName) {

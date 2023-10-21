@@ -2,9 +2,11 @@ package pl.mobslayer.mobs;
 
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +19,8 @@ public class MobSchema {
     private final List<String> spawnHours = new ArrayList<>();
     private final List<Location> spawnLocations = new ArrayList<>();
     private String spawnMessage;
+    private String killMessage;
+    private final HashMap<String, List<ItemStack>> rewards = new HashMap<>();
 
     public MobSchema(String name) {
         this.name = name;
@@ -56,6 +60,18 @@ public class MobSchema {
 
     public String getSpawnMessage() {
         return this.spawnMessage;
+    }
+
+    public String getKillMessage() {
+        return this.killMessage;
+    }
+
+    public HashMap<String, List<ItemStack>> getRewards() {
+        return new HashMap<>(rewards);
+    }
+
+    public List<ItemStack> getReward(String key) {
+        return rewards.getOrDefault(key, null);
     }
 
     public void setEntityType(EntityType entityType) {
@@ -100,6 +116,18 @@ public class MobSchema {
 
     public void setSpawnMessage(String message) {
         this.spawnMessage = message;
+    }
+
+    public void setKillMessage(String message) {
+        this.killMessage = message;
+    }
+
+    public void addReward(String key, List<ItemStack> itemStack) {
+        rewards.put(key, itemStack);
+    }
+
+    public void removeReward(String key) {
+        rewards.remove(key);
     }
 
 }

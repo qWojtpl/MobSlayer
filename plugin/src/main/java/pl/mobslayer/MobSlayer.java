@@ -4,6 +4,7 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.mobslayer.commands.Commands;
 import pl.mobslayer.data.DataHandler;
+import pl.mobslayer.data.MessagesManager;
 import pl.mobslayer.events.Events;
 import pl.mobslayer.mobs.Mob;
 import pl.mobslayer.mobs.MobsManager;
@@ -11,37 +12,42 @@ import pl.mobslayer.mobs.MobsManager;
 public final class MobSlayer extends JavaPlugin {
 
     private static MobSlayer main;
+    private MessagesManager messagesManager;
     private Commands commands;
-    private DataHandler dataHandler;
     private Events events;
     private MobsManager mobsManager;
+    private DataHandler dataHandler;
 
     @Override
     public void onEnable() {
         main = this;
+        this.messagesManager = new MessagesManager();
         this.commands = new Commands();
-        this.dataHandler = new DataHandler();
         this.events = new Events();
         this.mobsManager = new MobsManager();
+        this.dataHandler = new DataHandler();
         getServer().getPluginManager().registerEvents(events, this);
         PluginCommand command = getCommand("mobslayer");
         if(command != null) {
             command.setExecutor(commands);
         }
-        dataHandler.loadConfig();
+        dataHandler.loadAll();
+        mobsManager.startCheckTask();
         getLogger().info("Enabled.");
     }
 
     @Override
     public void onDisable() {
-        for(Mob mob : mobsManager.getMobs()) {
-            mobsManager.killMob(mob);
-        }
+        mobsManager.killAll();
         getLogger().info("Disabled.");
     }
 
     public static MobSlayer getInstance() {
         return main;
+    }
+
+    public MessagesManager getMessagesManager() {
+        return this.messagesManager;
     }
 
     public Commands getCommands() {

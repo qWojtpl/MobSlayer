@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPotionEffectEvent;
-import org.bukkit.event.entity.PotionSplashEvent;
 import pl.mobslayer.MobSlayer;
 import pl.mobslayer.mobs.Mob;
 import pl.mobslayer.mobs.MobsManager;
