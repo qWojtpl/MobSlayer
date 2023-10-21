@@ -80,37 +80,4 @@ public class ItemLoader {
         return list;
     }
 
-    public static void parseList(YamlConfiguration yml, String path, List<ItemStack> list) {
-        yml.set(path, null);
-        int i = 0;
-        for(ItemStack is : list) {
-            String currentPath = path + "." + i + ".";
-            yml.set(currentPath + "material", is.getType().name());
-            yml.set(currentPath + "amount", is.getAmount());
-            ItemMeta im = is.getItemMeta();
-            if(im == null) {
-                i++;
-                continue;
-            }
-            if(im instanceof SkullMeta || im.getPersistentDataContainer().getKeys().size() > 0) {
-                yml.set(currentPath + "loadMeta", true);
-                yml.set(currentPath + "meta", im);
-                i++;
-                continue;
-            }
-            if(!im.getDisplayName().equals("")) {
-                yml.set(currentPath + "name", im.getDisplayName());
-            }
-            yml.set(currentPath + "lore", im.getLore());
-            if(im.getEnchants().size() > 0) {
-                List<String> enchantments = new ArrayList<>();
-                for(Enchantment enchant : im.getEnchants().keySet()) {
-                    enchantments.add(enchant.getName() + ":" + im.getEnchants().get(enchant));
-                }
-                yml.set(currentPath + "enchantments", enchantments);
-            }
-            i++;
-        }
-    }
-
 }

@@ -43,6 +43,9 @@ public class DataHandler {
                 continue;
             }
             schema.setMaxHealth(yml.getDouble(path + "maxHealth"));
+            schema.setMovementSpeed(yml.getDouble(path + "movementSpeed"));
+            schema.setAttackDamage(yml.getDouble(path + "attackDamage"));
+            schema.setAttackSpeed(yml.getDouble(path + "attackSpeed"));
             schema.setMobName(yml.getString(path + "mobName", "").replace("&", "§"));
             schema.addSpawnHours(yml.getStringList(path + "spawnHours"));
             List<String> locations = yml.getStringList(path + "spawnLocations");

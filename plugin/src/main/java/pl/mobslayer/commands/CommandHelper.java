@@ -33,7 +33,7 @@ public class CommandHelper implements TabCompleter {
                 completions.addAll(plugin.getMobsManager().getSchemasNames());
             }
         }
-        return StringUtil.copyPartialMatches(args[args.length-1], completions, new ArrayList<>());
+        return completions;
     }
 
 }

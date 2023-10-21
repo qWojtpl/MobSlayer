@@ -18,6 +18,9 @@ mobs:
   "warden":
     type: WARDEN
     maxHealth: 1200
+    movementSpeed: 20
+    attackDamage: 40
+    attackSpeed: 1
     mobName: "&a&lSuper warden!"
     spawnHours:
       - "12:00"

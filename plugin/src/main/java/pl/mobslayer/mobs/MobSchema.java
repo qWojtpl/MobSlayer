@@ -13,6 +13,9 @@ public class MobSchema {
     private final String name;
     private EntityType entityType;
     private double maxHealth;
+    private double movementSpeed;
+    private double attackDamage;
+    private double attackSpeed;
     private String mobName;
     private final List<String> spawnHours = new ArrayList<>();
     private final List<Location> spawnLocations = new ArrayList<>();
@@ -34,6 +37,18 @@ public class MobSchema {
 
     public double getMaxHealth() {
         return this.maxHealth;
+    }
+
+    public double getMovementSpeed() {
+        return this.movementSpeed;
+    }
+
+    public double getAttackDamage() {
+        return this.attackDamage;
+    }
+
+    public double getAttackSpeed() {
+        return this.attackSpeed;
     }
 
     public String getMobName() {
@@ -78,6 +93,18 @@ public class MobSchema {
 
     public void setMaxHealth(double maxHealth) {
         this.maxHealth = maxHealth;
+    }
+
+    public void setMovementSpeed(double movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
+
+    public void setAttackDamage(double attackDamage) {
+        this.attackDamage = attackDamage;
+    }
+
+    public void setAttackSpeed(double attackSpeed) {
+        this.attackSpeed = attackSpeed;
     }
 
     public void setMobName(String mobName) {

@@ -5,6 +5,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.w3c.dom.Attr;
 import pl.mobslayer.MobSlayer;
 
 import java.util.HashMap;
@@ -35,16 +36,23 @@ public class Mob {
         }
         this.entity = spawnLocation.getWorld().spawnEntity(spawnLocation, schema.getEntityType());
         this.livingEntity = (LivingEntity) entity;
-        AttributeInstance attribute = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        if(attribute == null) {
-            logger.warning("This entity don't have attribute: GENERIC_MAX_HEALTH, keeping default values...");
-        } else {
-            attribute.setBaseValue(schema.getMaxHealth());
-        }
+        setAttribute(Attribute.GENERIC_MAX_HEALTH, schema.getMaxHealth());
+        setAttribute(Attribute.GENERIC_MOVEMENT_SPEED, schema.getMovementSpeed());
+        setAttribute(Attribute.GENERIC_ATTACK_DAMAGE, schema.getAttackDamage());
+        setAttribute(Attribute.GENERIC_ATTACK_SPEED, schema.getAttackSpeed());
         livingEntity.setHealth(schema.getMaxHealth());
         livingEntity.setRemoveWhenFarAway(false);
         entity.setCustomName(schema.getMobName());
         entity.setCustomNameVisible(true);
+    }
+
+    private void setAttribute(Attribute attribute, double value) {
+        AttributeInstance attr = livingEntity.getAttribute(attribute);
+        if(attr == null) {
+            MobSlayer.getInstance().getLogger().warning("This entity don't have attribute: " + attribute.name() + ", keeping default values...");
+            return;
+        }
+        attr.setBaseValue(value);
     }
 
     public void registerDamage(String playerName, double damage) {

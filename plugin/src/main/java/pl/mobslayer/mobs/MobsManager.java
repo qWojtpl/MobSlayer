@@ -98,8 +98,8 @@ public class MobsManager {
                     maxPlayer = player;
                 }
             }
-            if(!maxPlayer.equals("") || max == 0) {
-                sortedList.put(maxPlayer, playerDamage.get(maxPlayer) / mob.getMaxDamage());
+            if(!maxPlayer.equals("")) {
+                sortedList.put(maxPlayer, playerDamage.get(maxPlayer) / mob.getMaxDamage() * 100);
                 Player p = PlayerUtil.getPlayer(maxPlayer);
                 if(p != null) {
                     p.sendMessage(MessageFormat.format(messagesManager.getMessage("finalDamagePercent"),
