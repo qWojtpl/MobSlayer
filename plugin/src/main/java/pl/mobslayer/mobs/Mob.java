@@ -15,6 +15,7 @@ public class Mob {
     private final MobSchema schema;
     private Entity entity;
     private LivingEntity livingEntity;
+    private double maxDamage = 0.0;
     private final HashMap<String, Double> playerDamage = new HashMap<>();
 
     public Mob(MobSchema schema) {
@@ -49,6 +50,7 @@ public class Mob {
     public void registerDamage(String playerName, double damage) {
         double actualDamage = playerDamage.getOrDefault(playerName, 0.0);
         actualDamage += damage;
+        maxDamage += damage;
         playerDamage.put(playerName, actualDamage);
     }
 
@@ -62,6 +64,10 @@ public class Mob {
 
     public LivingEntity getLivingEntity() {
         return this.livingEntity;
+    }
+
+    public double getMaxDamage() {
+        return this.maxDamage;
     }
 
     public HashMap<String, Double> getPlayerDamage() {

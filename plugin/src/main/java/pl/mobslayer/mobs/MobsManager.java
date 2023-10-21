@@ -99,7 +99,7 @@ public class MobsManager {
                 }
             }
             if(!maxPlayer.equals("") || max == 0) {
-                sortedList.put(maxPlayer, playerDamage.get(maxPlayer) / mob.getSchema().getMaxHealth() * 100);
+                sortedList.put(maxPlayer, playerDamage.get(maxPlayer) / mob.getMaxDamage());
                 Player p = PlayerUtil.getPlayer(maxPlayer);
                 if(p != null) {
                     p.sendMessage(MessageFormat.format(messagesManager.getMessage("finalDamagePercent"),

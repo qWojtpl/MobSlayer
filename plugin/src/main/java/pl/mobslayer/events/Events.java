@@ -35,12 +35,8 @@ public class Events implements Listener {
         if(mob == null) {
             return;
         }
-        double damage = event.getFinalDamage();
         Player player = (Player) event.getDamager();
-        if(damage > mob.getLivingEntity().getHealth()) {
-            damage = mob.getLivingEntity().getHealth();
-        }
-        mob.registerDamage(player.getName(), damage);
+        mob.registerDamage(player.getName(), event.getFinalDamage());
     }
 
     @EventHandler
