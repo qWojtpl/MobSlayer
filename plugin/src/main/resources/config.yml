@@ -13,7 +13,7 @@
 # Version: 1.0.0
 
 mobs:
-  0:
+  "warden":
     type: WARDEN
     maxHealth: 1200
     respawnHours:
@@ -22,5 +22,6 @@ mobs:
     spawnLocations:
       - "0 120 0 world"
       - "5 120 5 world"
+    spawnMessage: "&a&lSuper warden just spawned at {0}!"
     rewards:
       0: []
