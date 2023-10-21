@@ -12,6 +12,8 @@
 # Github: https://github.com/qWojtpl/MobSlayer
 # Version: 1.0.0
 
+managePermission: mslayer.manage
+
 mobs:
   "warden":
     type: WARDEN
@@ -23,8 +25,8 @@ mobs:
     spawnLocations:
       - "0 120 0 world"
       - "5 120 5 world"
-    spawnMessage: "&a&lSuper warden just spawned at {0}!"
-    killMessage: "&a&lSuper warden has just been killed by {0} ({1}% of damage)!"
+    spawnMessage: "&a&lSuper warden has just spawned!"
+    killMessage: "&a&lSuper warden has just been killed by &6{0}&a (&6{1}%&a of damage)!"
     rewards:
       "top_0":
         0:

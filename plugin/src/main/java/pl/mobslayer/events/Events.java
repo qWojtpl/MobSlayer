@@ -22,7 +22,8 @@ public class Events implements Listener {
             return;
         }
         event.getDrops().clear();
-        mobsManager.killMob(mob);
+        event.setDroppedExp(0);
+        mobsManager.killMob(mob, true);
     }
 
     @EventHandler
@@ -34,8 +35,12 @@ public class Events implements Listener {
         if(mob == null) {
             return;
         }
+        double damage = event.getFinalDamage();
         Player player = (Player) event.getDamager();
-        mob.registerDamage(player.getName(), event.getFinalDamage());
+        if(damage > mob.getLivingEntity().getHealth()) {
+            damage = mob.getLivingEntity().getHealth();
+        }
+        mob.registerDamage(player.getName(), damage);
     }
 
     @EventHandler

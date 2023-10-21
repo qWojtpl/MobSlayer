@@ -14,4 +14,8 @@ public class MessagesManager {
         messages.put(key, message);
     }
 
+    public void clearMessages() {
+        messages.clear();
+    }
+
 }

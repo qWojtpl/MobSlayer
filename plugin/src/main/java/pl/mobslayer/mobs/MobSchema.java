@@ -3,12 +3,10 @@ package pl.mobslayer.mobs;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
+import pl.mobslayer.MobSlayer;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class MobSchema {
 

@@ -16,16 +16,19 @@ public class DataHandler {
 
     private final MobSlayer plugin = MobSlayer.getInstance();
     private final MessagesManager messagesManager = plugin.getMessagesManager();
+    private String managePermission;
 
     public void loadAll() {
-        plugin.getMobsManager().clearSchemas();
         plugin.getMobsManager().killAll();
+        plugin.getMobsManager().clearSchemas();
+        messagesManager.clearMessages();
         loadConfig();
         loadMessages();
     }
 
     public void loadConfig() {
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(getConfigFile());
+        managePermission = yml.getString("managePermission", "mslayer.manage");
         ConfigurationSection section = yml.getConfigurationSection("mobs");
         if(section == null) {
             return;
@@ -58,6 +61,12 @@ public class DataHandler {
             }
             schema.setSpawnMessage(yml.getString(path + "spawnMessage", "").replace("&", "§"));
             schema.setKillMessage(yml.getString(path + "killMessage", "").replace("&", "§"));
+            ConfigurationSection rewardSection = yml.getConfigurationSection(path + "rewards");
+            if(rewardSection != null) {
+                for(String rewardKey : rewardSection.getKeys(false)) {
+                    schema.addReward(rewardKey, ItemLoader.getItemStackList(yml, path + "rewards." + rewardKey));
+                }
+            }
             plugin.getMobsManager().addSchema(schema);
         }
         plugin.getLogger().info("Loaded (" + plugin.getMobsManager().getSchemas().size() + ") mobs.");
@@ -99,6 +108,10 @@ public class DataHandler {
             plugin.saveResource(fileName, false);
         }
         return file;
+    }
+
+    public String getManagePermission() {
+        return this.managePermission;
     }
 
 }

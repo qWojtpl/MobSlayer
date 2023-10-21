@@ -3,6 +3,7 @@ package pl.mobslayer.mobs;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import pl.mobslayer.MobSlayer;
 import pl.mobslayer.data.MessagesManager;
 import pl.mobslayer.util.DateManager;
@@ -47,6 +48,14 @@ public class MobsManager {
         return new ArrayList<>(schemas);
     }
 
+    public List<String> getSchemasNames() {
+        List<String> names = new ArrayList<>();
+        for(MobSchema schema : schemas) {
+            names.add(schema.getName());
+        }
+        return names;
+    }
+
     public void spawnMob(MobSchema schema) {
         Mob mob = new Mob(schema);
         mob.spawnMob();
@@ -55,19 +64,23 @@ public class MobsManager {
     }
 
     public void killAll() {
+        List<Mob> mobs = new ArrayList<>(getMobs());
         for(Mob mob : mobs) {
-            killMob(mob);
+            killMob(mob, false);
         }
     }
 
-    public void killMob(Mob mob) {
+    public void killMob(Mob mob, boolean byPlayer) {
         if(mob == null) {
             return;
         }
-        if(mob.getLivingEntity() != null) {
-            mob.getLivingEntity().setHealth(0);
+        if(!mobs.contains(mob)) {
+            return;
         }
         mobs.remove(mob);
+        if(!byPlayer) {
+            mob.getLivingEntity().setHealth(0);
+        }
         HashMap<String, Double> playerDamage = mob.getPlayerDamage();
         HashMap<String, Double> sortedList = new HashMap<>();
         for(int i = 0; i < playerDamage.size(); i++) {
@@ -86,13 +99,13 @@ public class MobsManager {
                 }
             }
             if(!maxPlayer.equals("") || max == 0) {
-                sortedList.put(maxPlayer, playerDamage.get(maxPlayer) / mob.getSchema().getMaxHealth());
+                sortedList.put(maxPlayer, playerDamage.get(maxPlayer) / mob.getSchema().getMaxHealth() * 100);
                 Player p = PlayerUtil.getPlayer(maxPlayer);
                 if(p != null) {
                     p.sendMessage(MessageFormat.format(messagesManager.getMessage("finalDamagePercent"),
                             sortedList.get(maxPlayer),
-                            mob.getSchema().getName(),
-                            i + 1
+                            mob.getSchema().getMobName(),
+                            String.valueOf(i + 1)
                     ));
                     if(i >= 3) {
                         p.sendMessage(messagesManager.getMessage("noRewards"));
@@ -119,7 +132,10 @@ public class MobsManager {
             p.sendMessage(messagesManager.getMessage("rewards"));
             for(ItemStack is : rewards) {
                 HashMap<Integer, ItemStack> rest = p.getInventory().addItem(is);
-                if(is.getItemMeta() != null) {
+                if(is.getItemMeta() == null) {
+                    continue;
+                }
+                if(!is.getItemMeta().getDisplayName().equals("")) {
                     p.sendMessage(MessageFormat.format(messagesManager.getMessage("rewardRecord"),
                             is.getItemMeta().getDisplayName(),
                             is.getAmount()

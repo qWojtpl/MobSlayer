@@ -1,5 +1,5 @@
 messages:
-  finalDamagePercent: "&aYou have dealt &6{0}&a% damage to {1}. You're top {2} on this event."
+  finalDamagePercent: "&aYou have dealt &6{0}%&a damage to {1}&a. You are &6top {2}&a on this event."
   rewards: "&aRewards: "
   rewardRecord: " &e- {0} &ex{1}"
   noRewards: "&cYou don't have any rewards for participating in this event."
