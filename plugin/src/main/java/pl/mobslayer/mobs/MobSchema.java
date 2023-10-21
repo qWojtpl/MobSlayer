@@ -13,6 +13,7 @@ public class MobSchema {
     private final String name;
     private EntityType entityType;
     private double maxHealth;
+    private String mobName;
     private final List<String> spawnHours = new ArrayList<>();
     private final List<Location> spawnLocations = new ArrayList<>();
     private String spawnMessage;
@@ -31,6 +32,10 @@ public class MobSchema {
 
     public double getMaxHealth() {
         return this.maxHealth;
+    }
+
+    public String getMobName() {
+        return this.mobName;
     }
 
     public List<String> getSpawnHours() {
@@ -61,8 +66,18 @@ public class MobSchema {
         this.maxHealth = maxHealth;
     }
 
+    public void setMobName(String mobName) {
+        this.mobName = mobName;
+    }
+
     public void addSpawnHour(String hour) {
         spawnHours.add(hour);
+    }
+
+    public void addSpawnHours(List<String> hours) {
+        for(String h : hours) {
+            addSpawnHour(h);
+        }
     }
 
     public void removeSpawnHour(String hour) {
@@ -71,6 +86,12 @@ public class MobSchema {
 
     public void addSpawnLocation(Location location) {
         spawnLocations.add(location);
+    }
+
+    public void addSpawnLocations(List<Location> locations) {
+        for(Location l : locations) {
+            addSpawnLocation(l);
+        }
     }
 
     public void removeSpawnLocation(Location location) {

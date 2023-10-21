@@ -4,3 +4,8 @@ main: pl.mobslayer.MobSlayer
 api-version: 1.19
 authors: [Assasin98980]
 description: Spawn super-mob in location in set hour.
+commands:
+  mobslayer:
+    description: Mange MobSlayer plugin
+    aliases:
+      - mslayer

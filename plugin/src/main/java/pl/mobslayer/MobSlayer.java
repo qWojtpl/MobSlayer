@@ -1,9 +1,11 @@
 package pl.mobslayer;
 
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.mobslayer.commands.Commands;
 import pl.mobslayer.data.DataHandler;
 import pl.mobslayer.events.Events;
+import pl.mobslayer.mobs.Mob;
 import pl.mobslayer.mobs.MobsManager;
 
 public final class MobSlayer extends JavaPlugin {
@@ -22,12 +24,19 @@ public final class MobSlayer extends JavaPlugin {
         this.events = new Events();
         this.mobsManager = new MobsManager();
         getServer().getPluginManager().registerEvents(events, this);
+        PluginCommand command = getCommand("mobslayer");
+        if(command != null) {
+            command.setExecutor(commands);
+        }
         dataHandler.loadConfig();
         getLogger().info("Enabled.");
     }
 
     @Override
     public void onDisable() {
+        for(Mob mob : mobsManager.getMobs()) {
+            mobsManager.killMob(mob);
+        }
         getLogger().info("Disabled.");
     }
 

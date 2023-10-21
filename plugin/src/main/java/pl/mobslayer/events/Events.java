@@ -5,6 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
 import pl.mobslayer.MobSlayer;
 import pl.mobslayer.mobs.Mob;
 import pl.mobslayer.mobs.MobsManager;
@@ -16,12 +18,12 @@ public class Events implements Listener {
 
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
-        for(Mob mob : mobsManager.getMobs()) {
-            if(event.getEntity().equals(mob.getEntity())) {
-                mobsManager.killMob(mob);
-                return;
-            }
+        Mob mob = mobsManager.getMobByEntity(event.getEntity());
+        if(mob == null) {
+            return;
         }
+        event.getDrops().clear();
+        mobsManager.killMob(mob);
     }
 
     @EventHandler
@@ -29,7 +31,21 @@ public class Events implements Listener {
         if(!(event.getDamager() instanceof Player)) {
             return;
         }
-        
+        Mob mob = mobsManager.getMobByEntity(event.getEntity());
+        if(mob == null) {
+            return;
+        }
+        Player player = (Player) event.getDamager();
+        mob.registerDamage(player.getName(), event.getFinalDamage());
+    }
+
+    @EventHandler
+    public void onMobPotionEffect(EntityPotionEffectEvent event) {
+        Mob mob = mobsManager.getMobByEntity(event.getEntity());
+        if(mob == null) {
+            return;
+        }
+        event.setCancelled(true);
     }
 
 }

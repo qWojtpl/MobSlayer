@@ -7,6 +7,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import pl.mobslayer.MobSlayer;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class Mob {
@@ -14,6 +15,7 @@ public class Mob {
     private final MobSchema schema;
     private Entity entity;
     private LivingEntity livingEntity;
+    private final HashMap<String, Double> playerDamage = new HashMap<>();
 
     public Mob(MobSchema schema) {
         this.schema = schema;
@@ -39,6 +41,15 @@ public class Mob {
             attribute.setBaseValue(schema.getMaxHealth());
         }
         livingEntity.setHealth(schema.getMaxHealth());
+        livingEntity.setRemoveWhenFarAway(false);
+        entity.setCustomName(schema.getMobName());
+        entity.setCustomNameVisible(true);
+    }
+
+    public void registerDamage(String playerName, double damage) {
+        double actualDamage = playerDamage.getOrDefault(playerName, 0.0);
+        actualDamage += damage;
+        playerDamage.put(playerName, actualDamage);
     }
 
     public MobSchema getSchema() {
@@ -51,6 +62,10 @@ public class Mob {
 
     public LivingEntity getLivingEntity() {
         return this.livingEntity;
+    }
+
+    public HashMap<String, Double> getPlayerDamage() {
+        return new HashMap<>(playerDamage);
     }
 
 }
